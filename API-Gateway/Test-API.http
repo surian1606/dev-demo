@@ -1,0 +1,6 @@
+POST https://nk7mgjzkb6.execute-api.ap-southeast-1.amazonaws.com/Beta/getmissiondetails
+Accept: application/json
+
+{
+  "superhero": "Upin Ipin"
+}
