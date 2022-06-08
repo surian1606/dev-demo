@@ -1,0 +1,120 @@
+#to develop on aws
+1. An AWS account. at least one user with programmatic access (Access Key ID & Secret)
+2. Install dan Configure CLI
+3. Install dan Configure SDK
+4. Install dan Configure IDE
+
+#Installing the AWS CLI
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+#Configuring the AWS CLI
+https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+
+#Tools to Build on AWS
+https://aws.amazon.com/tools/
+
+AWS services expose their features through Service APIs (REST API).
+    - Access the services with their service endpoints (URL)
+    - For security, most requests to AWS must be signed with an access key. AWS support SigV4
+
+AWS has created SDKs to simplify the programmatic use of the APIs
+    - Language binding
+    - HTTP request signing
+    - Built-in resilience, logic for retries/errors/timeouts
+    - Pagination support
+
+AWS SDK for Python (Boto3) supports:
+    - Service client API (low-level)
+        e.g.: s3client = boto3.client('s3')
+    - Resource API (high-level)
+        e.g.: s3resource = boto3.resource('s3')
+
+AWS Identity and Access Management (IAM)
+	• IAM is used to manage access to AWS resources. It is a global and free service.
+		○ Who can log in (authentication)
+		○ What can be done (authorization). Determined by IAM Policy.
+	• IAM Identities: Users, Groups, Roles.
+		○ IAM Users: end users who log into the Management Console or interact with AWS resources programmatically. IAM users have credentials in the form of username/password (Console) and Access key ID/Secret access key (CLI and SDK)
+		○ IAM Groups: Manage multiple users who share the same permission level into one group.
+		○ IAM Roles:
+			Identity with certain permissions.
+			Does not have permanent credentials. Access is granted with a temporary credential granted by the AWS Security Token Service (AWS STS).
+			Roles are provided so that they can be 'assumed' by users, applications, or services.
+	• IAM Policy, a JSON file containing statements governing access to certain AWS resources.
+		○ Identity-based policy, attached to IAM identity.
+			Managed policies: AWS managed, Customer managed.
+			Inline policy: a policy that directly attaches to a user, group or role.
+		○ Resource-based policy, attached to resources, e.g. Amazon S3, Amazon API Gateway, AWS KMS etc.
+	• Important elements in policy:
+		○ Version: 2012-10-17 (new), 2008-10-17 (old - default). Use the new version that supports policy variables.
+		○ Effect: Allow or Deny
+		○ Action: Certain operations are allowed (Allow) or not (Deny). The list of actions is in the IAM API Reference.
+		○ Resources: AWS resources included in the policy.
+		○ Principal (only on RBP): the entity that can perform an action on the resource.
+		○ Condition (optional): the condition under which the policy in question applies.
+	• IAM Principals.
+		○ AWS account and root user
+		○ IAM users
+		○ Federated users (using web identity or SAML federation)
+		○ IAM roles
+		○ Assumed-role sessions
+		○ AWS services
+		○ Anonymous users (not recommended).
+	• Identity Federation
+		○ Web identity federation. Users sign-in to the application using an OIDC-enabled web identity provider (such as Amazon, Facebook, Google etc.) to gain access to AWS resources.
+			A common scenario is using Amazon Cognito so developers don't have to create special code to interact with Identity Providers (IdPs).
+		○ SAML 2.0 federation, enabling federated Single Sign-on (SSO). Use cases:
+			Federated access, allows users or applications in the customer's organization to make API calls to AWS resources.
+            Web-based Single Sign-on to the AWS Management Console from the customer organization.
+
+#Setting up IDE
+1. Configure credentials. An SDK looks for credentials in the following order (Java SDK):
+    1. Environment variables-AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+    2. Java system properties-aws.accessKeyId and aws.secretKey.
+    3. Web Identity Token credentials from the environment or container.
+    4. The default credential profiles file- typically located at ~/.aws/credentials (location can vary per platform), and shared by many of the AWS SDKs and by the AWS CLI.
+    5. Amazon ECS container credentials- loaded from the Amazon ECS
+    6. Instance profile credentials
+
+2. AWS creates toolkits for below IDEs. They make it easier for developers to develop, debug, and deploy app.
+    - Eclipse
+    - IntelliJ IDEA
+    - PyCharm
+    - Visual Studio
+    - Visual Studio Code
+    - Azure DevOps
+    - Rider
+    - WebStorm
+
+#Amazon Simple Storage Service (S3)
+- The component of S3
+    - Bucket (created in region)
+    - Object (inside bucket)
+
+- has a flat file structure
+    - no object hierarchy
+    - 'folder' is only prefix for object keys
+    - storage class
+        - S3 Standard
+        - S3 Standard-IA
+        - S3 Intelligent Tiering
+        - S3 One Zone-IA
+        - S3 Glacier Instant Retrieval
+        - S3 Glacier Flexible Retrieval
+        - S3 Glacier Deep Archive
+
+- Other features
+    - Event notification
+    - Versioning
+    - Cross-origin Resource Sharing
+    - Multi-part upload
+    - Presigned URL
+    - S3 select
+
+#To create a bucket, follow these steps: 
+1. Decide on a bucket name and AWS Region for the bucket. 
+2. To create the bucket on the AWS Cloud, you must do the following:
+    a. Create a client, specifying the AWS Region where the bucket will exist. 
+    b. Determine whether the bucket exists. You can do this by checking the head-bucket information. If the    bucket exists and you have permissions to access it, the HEAD request returns the status code 200 OK. If the bucket does not exist or you do not have permissions to access it, the HEAD request returns a status code 404 Not Found or 403 Forbidden. 
+    c. If you determine that the bucket does not exist, send a CreateBucket request. The bucket is created in the Region specified by the client. 
+3. Verify the bucket creation by retrieving bucket information and checking the bucket location. 
