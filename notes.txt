@@ -118,3 +118,68 @@ AWS Identity and Access Management (IAM)
     b. Determine whether the bucket exists. You can do this by checking the head-bucket information. If the    bucket exists and you have permissions to access it, the HEAD request returns the status code 200 OK. If the bucket does not exist or you do not have permissions to access it, the HEAD request returns a status code 404 Not Found or 403 Forbidden. 
     c. If you determine that the bucket does not exist, send a CreateBucket request. The bucket is created in the Region specified by the client. 
 3. Verify the bucket creation by retrieving bucket information and checking the bucket location. 
+
+#Amazon DynamoDB
+
+NoSQL Workbench
+	A cross-platform client-side GUI application for modern database development and operations
+	Deploy data model and implement it locally or on web service easily - no console access needed.
+	https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/workbench.html
+	
+DynamoDB Local
+	A downloadable version of DynamoDB that you can run on your computer
+	perfect for development and testing of your code.
+	https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SettingUp.html
+	
+#AWS Lambda
+	Serverless functions. Upload and run code without managing a single server.
+	Supports various runtimes: C#, Go, Java, Node.js, Python, Ruby
+	Quotas:
+		Suitable for short computing types (maximum timeout 15 minutes).
+		Memory allocation 128 - 10240 MB.
+		Ephemeral storage 512MB - 10GB
+	Integrates with many services such as S3, API Gateway and DynamoDB.
+	Runs without a VPC (default), but can be configured to access resources that reside within the VPC.
+	Scalability of up to tens of thousands of concurrent executions (default 1000).
+	One function can be created up to 5 layers. Each layer contains, for example: libraries, custom runtime, data or configuration files
+	Code size:
+		50 MB (zipped, direct upload)
+		250 MB (unzipped, including layers)
+		3 MB (console editor)
+		10 GB containers.
+	New addition: Lambda function URL, access your function directly without API Gateway.
+
+#Amazon API Gateway
+	
+	API types:
+		HTTP: lower latency and lower cost than REST APIs but limited features
+		REST: feature-rich API including testing and translation.
+		WebSocket: bidirectional API, A client can send messages to a service, and services can independently send messages to clients.
+		
+	Endpoint type: regional, Private (access from specific VPCs), Edge optimized.
+		
+	Some REST API features:
+		Stages: named reference to a deployment
+		API keys: alphanumeric string values that you distribute to application developer customers to grant access to your API. Together with usage plan, you can control how customer access an API.
+		Throttling: prevent your API from being overwhelmed by too many requests.
+		Access control:
+			- IAM - id-based policy
+			- API Gateway resource based policy
+			- Cognito
+			- Lambda Authorizer.
+		Data transformation: transform request from client to format required by the backend.
+		SDK generation: supports Java, JavaScript, Java for Android, Objective-C or Swift for iOS, and Ruby.
+		Mock integrations: API developers can generate API responses from API Gateway directly, without the need for an integration backend.
+		Response caching: reduce the number of calls to backend.
+		
+	REST API component: Resource and Methods.
+	
+	Developer tools:
+		Design API as a code with Swagger.
+		https://swagger.io/blog/api-development/introducing-the-amazon-api-gateway-integration/
+		
+
+	
+		
+
+

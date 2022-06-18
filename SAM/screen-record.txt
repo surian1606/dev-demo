@@ -1,0 +1,25 @@
+Would you like to enable X-Ray tracing on the function(s) in your application?  [y/N]: y
+X-Ray will incur an additional cost. View https://aws.amazon.com/xray/pricing/ for more details
+
+Project name [sam-app]: demo-20220609
+
+Cloning from https://github.com/aws/aws-sam-cli-app-templates (process may take a moment)
+
+    -----------------------
+    Generating application:
+    -----------------------
+    Name: demo-20220609
+    Runtime: python3.9
+    Architectures: x86_64
+    Dependency Manager: pip
+    Application Template: hello-world
+    Output Directory: .
+
+    Next steps can be found in the README file at ./demo-20220609/README.md
+
+
+    Commands you can use next
+    =========================
+    [*] Create pipeline: cd demo-20220609 && sam pipeline init --bootstrap
+    [*] Validate SAM template: sam validate
+    [*] Test Function in the Cloud: sam sync --stack-name {stack-name} --watch
