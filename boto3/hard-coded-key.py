@@ -1,7 +1,7 @@
 import boto3
 
-ACCESS_KEY='AKIAW777UUPYIPHJI7GS'
-SECRET_KEY='uAQ//w9mZWImKKB3oDdia/ebknf8UwI09cV/RfGt'
+ACCESS_KEY='your-access-key-id-here'
+SECRET_KEY='your-secret-access-key-here'
 
 s3 = boto3.client(
     's3',
