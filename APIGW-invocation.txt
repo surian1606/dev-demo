@@ -1,1 +1,0 @@
-https://etg5py7t56.execute-api.ap-south-1.amazonaws.com/dev/test?operand1=2&operand2=3&operator=%2B
