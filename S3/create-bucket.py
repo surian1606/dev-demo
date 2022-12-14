@@ -77,7 +77,7 @@ def verifyBucket(s3Client, bucket):
 
 def readConfig():
     config = configparser.ConfigParser()
-    config.read('./labRepo/config.ini')
+    config.read('config.ini')
     
     return config['S3']
 
