@@ -11,7 +11,7 @@ s3 = boto3.client(
     )
 
 #To use custom profile, please use below snippet instead
-#s3 = boto3.session.Session(profile_name='developer').client('s3')
+#s3 = boto3.session.Session(profile_name='<profile>').client('s3')
 
 response = s3.list_buckets()
 
