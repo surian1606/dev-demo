@@ -3,7 +3,6 @@ import boto3, botocore, json, csv, io, configparser
 def main(s3Client):
     print('\nStart of convert object script\n')
 
-    ## Initialize variables for object creation
     print('Reading configuration file for bucket name...')
     config = readConfig()
     bucket_name = config['bucket_name']
@@ -35,9 +34,9 @@ def getCSVFile(s3Client, bucket, key):
     ## bytes_buffer object so that it can be decoded to a string.
     
     s3Client.download_fileobj(
-        Bucket=bucket, 
-        Key=key, 
-        Fileobj=bytes_buffer)
+      Bucket=bucket, 
+      Key=key, 
+      Fileobj=bytes_buffer)
 
     ## End TODO 6
 

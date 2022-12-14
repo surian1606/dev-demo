@@ -16,7 +16,7 @@ def main(s3Client):
     #### Create the notes-bucket-
     createBucket(s3Client, bucket_name)
 
-    ##Pause until the the bucket is in the account
+    #Pause until the the bucket is in the account
     print('\nConfirm that the bucket exists...')
     verifyBucket(s3Client, bucket_name)
 
@@ -26,7 +26,7 @@ def verifyBucketName(s3Client, bucket):
     try:
         ## Start TODO 2: enter a command that will check if a bucket already exists in AWS
         ## with the name built from your ini file input.
-        s3Client.head_bucket(Bucket=bucket)
+        s3Client.head_bucket(Bucket=bucket)        
         ## End TODO 2
 
         # If the previous command is successful, the bucket is already in your account.
@@ -53,9 +53,9 @@ def createBucket(s3Client, name):
     # and return the response in a response variable.
 
     if current_region == 'us-east-1':
-        response = s3Client.create_bucket(Bucket=name)
+        s3Client.create_bucket(Bucket=name)
     else:
-        response = s3Client.create_bucket(
+        s3Client.create_bucket(
           Bucket=name,
           CreateBucketConfiguration={
             'LocationConstraint': current_region
@@ -68,12 +68,13 @@ def createBucket(s3Client, name):
 def verifyBucket(s3Client, bucket):
     ## Start TODO 4: Complete the function so that it will 
     ## pause and only proceed after the bucket exists.
+    
     waiter = s3Client.get_waiter('bucket_exists')
     waiter.wait(Bucket=bucket)
+
     ## End TODO 4
     print('The bucket:' + bucket + ' is now available.')
 
-## Utility methods
 def readConfig():
     config = configparser.ConfigParser()
     config.read('./labRepo/config.ini')
