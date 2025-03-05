@@ -3,6 +3,7 @@ import boto3
 from botocore.exceptions import ClientError
 import datetime
 import time
+import argparse
 
 def upload_files_to_s3(local_directory, bucket_name, s3_prefix=''):
     """
@@ -12,28 +13,19 @@ def upload_files_to_s3(local_directory, bucket_name, s3_prefix=''):
     :param bucket_name: Name of the S3 bucket
     :param s3_prefix: Optional prefix/folder path in the S3 bucket
     """
-    # Create S3 client
     s3_client = boto3.client('s3')
     
-    # Walk through the directory
     for root, dirs, files in os.walk(local_directory):
         for file in files:
-            # Full local file path
             local_path = os.path.join(root, file)
-            
-            # Relative path for S3 key (preserving directory structure)
             relative_path = os.path.relpath(local_path, local_directory)
             s3_key = os.path.join(s3_prefix, relative_path).replace('\\', '/')
             
             try:
-                # Get file creation time
                 file_stats = os.stat(local_path)
                 creation_time = datetime.datetime.fromtimestamp(file_stats.st_ctime)
                 
-                # Upload file to S3
                 s3_client.upload_file(local_path, bucket_name, s3_key)
-                
-                # Set custom metadata for original creation time
                 s3_client.copy_object(
                     Bucket=bucket_name,
                     CopySource={'Bucket': bucket_name, 'Key': s3_key},
@@ -54,13 +46,32 @@ def upload_files_to_s3(local_directory, bucket_name, s3_prefix=''):
                 print(f"Unexpected error with {local_path}: {e}")
 
 def main():
-    # Configuration - replace these with your actual values
-    LOCAL_DIRECTORY = 'C:/Users/suriasya/Pictures'
-    BUCKET_NAME = 'surian-dev-demo-bucket'
-    S3_PREFIX = ''  # Optional: upload to a specific folder in S3
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description='Upload files to S3 bucket with metadata')
     
-    # Ensure AWS credentials are configured (via AWS CLI, environment variables, or credentials file)
-    upload_files_to_s3(LOCAL_DIRECTORY, BUCKET_NAME, S3_PREFIX)
+    # Add arguments
+    parser.add_argument('--directory', '-d',
+                        required=True,
+                        help='Local directory path containing files to upload')
+    
+    parser.add_argument('--bucket', '-b',
+                        required=True,
+                        help='Name of the S3 bucket')
+    
+    parser.add_argument('--prefix', '-p',
+                        default='',
+                        help='Optional S3 prefix (folder path)')
+    
+    # Parse arguments
+    args = parser.parse_args()
+    
+    # Validate directory exists
+    if not os.path.isdir(args.directory):
+        print(f"Error: Directory '{args.directory}' does not exist")
+        return
+    
+    # Execute upload
+    upload_files_to_s3(args.directory, args.bucket, args.prefix)
 
 if __name__ == '__main__':
     main()
