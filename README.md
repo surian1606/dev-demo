@@ -1,0 +1,1 @@
+This repo is to store scripts to help students in Developing class understand some concepts. It should not be used without taking the class, and I am not responsible for maintaining and any problem caused by the code.
