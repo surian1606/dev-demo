@@ -1,0 +1,11 @@
+DynamoDbEnhancedClient enhancedClient = DependencyFactory.enhancedClient();
+productCatalog = enhancedClient.table(TABLE_NAME, TableSchema.fromImmutableClass(ProductCatalog.class));
+productCatalog.createTable(b -> b
+        .provisionedThroughput(b1 -> b1.readCapacityUnits(5L).writeCapacityUnits(5L))
+        .globalSecondaryIndices(b2 -> b2.indexName("products_by_isbn")
+                .projection(b4 -> b4
+                        .projectionType(ProjectionType.INCLUDE)
+                        .nonKeyAttributes("price", "authors"))
+                .provisionedThroughput(b3 -> b3.writeCapacityUnits(5L).readCapacityUnits(5L))
+        )
+);

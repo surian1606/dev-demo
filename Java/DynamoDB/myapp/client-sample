@@ -1,0 +1,24 @@
+DependencyFactory.dynamoDbClient().createTable(builder -> builder
+        .tableName(TABLE_NAME)
+        .attributeDefinitions(
+                b -> b.attributeName("id").attributeType(ScalarAttributeType.N),
+                b -> b.attributeName("title").attributeType(ScalarAttributeType.S),
+                b -> b.attributeName("isbn").attributeType(ScalarAttributeType.S)
+        )
+        .keySchema(
+                builder1 -> builder1.attributeName("id").keyType(KeyType.HASH),
+                builder2 -> builder2.attributeName("title").keyType(KeyType.RANGE)
+        )
+        .globalSecondaryIndexes(builder3 -> builder3
+                        .indexName("products_by_isbn")
+                        .keySchema(builder2 -> builder2
+                                .attributeName("isbn").keyType(KeyType.HASH))
+                        .projection(builder2 -> builder2
+                                .projectionType(ProjectionType.INCLUDE)
+                                .nonKeyAttributes("price", "authors"))
+                        .provisionedThroughput(builder4 -> builder4
+                                .writeCapacityUnits(5L).readCapacityUnits(5L))
+        )
+        .provisionedThroughput(builder1 -> builder1
+                .readCapacityUnits(5L).writeCapacityUnits(5L))
+);
